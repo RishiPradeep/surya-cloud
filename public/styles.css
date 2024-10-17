@@ -1,0 +1,413 @@
+/* Global Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    height: 60px;
+    width: 150px;
+    margin-right: 10px; /* Add space between logo and navigation links */
+}
+
+/* Navbar Styling */
+.navbar {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: white;
+    z-index: 1000;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style: none; /* Remove bullets */
+    display: flex; /* Display list items in a row */
+    padding: 0;
+    margin: 0;
+}
+
+.navbar ul li {
+    margin: 0 15px; /* Add space between items */
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.navbar a:hover {
+    color: #f0f0f0;
+}
+
+.dashboard-btn, .login-btn {
+    background-color: #ff4757;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.dashboard-btn:hover, .login-btn:hover {
+    background-color: #ff6b81;
+}
+
+/* Hero Section */
+#hero {
+    position: relative; /* Enable positioning for the pseudo-element */
+    height: 100vh; /* Full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden; /* Ensure no overflow */
+}
+
+#hero::before {
+    content: '';
+    position: absolute; /* Position the background */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/Users/suryaganapathy/Desktop/Cloud Project/public/ehr.jpg') no-repeat center center/cover; /* Background image */
+    opacity: 2; /* Set the desired opacity */
+    z-index: 1; /* Behind the text */
+}
+
+#hero h1 {
+    font-size: 3rem;
+    position: relative; /* Positioning to ensure it appears above the background */
+    z-index: 2; /* Ensure the content appears above the background */
+}
+
+#hero p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    position: relative; /* Positioning to ensure it appears above the background */
+    z-index: 2; /* Ensure the content appears above the background */
+}
+
+#hero .btn-primary {
+    background-color: #ff4757;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+    border-radius: 5px;
+    position: relative; /* Positioning to ensure it appears above the background */
+    z-index: 2; /* Ensure the content appears above the background */
+}
+
+
+/* Section Styling */
+.section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.feature-item i {
+    font-size: 2rem;
+    color: #ff4757;
+}
+
+.feature-item h3 {
+    margin-top: 15px;
+    font-size: 1.5rem;
+}
+
+.feature-item p {
+    margin-top: 10px;
+}
+
+/* Contact Section */
+#contact {
+    background-color: #f1f1f1;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #ff4757;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #ff6b81;
+    transition: background-color 0.3s ease;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Additional Styles (from the new changes) */
+
+/* Login Container */
+.login-container {
+    width: 400px;
+    margin: 100px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Login Button */
+.btn-primary {
+    width: 250px;
+    padding: 10px;
+    background-color: #f82a05;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .login-container {
+        width: 90%;
+        margin: 50px auto;
+    }
+}
+
+/* Styles for login page */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #218838;
+}
+
+/* Styles for dashboard and form */
+.dashboard-container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.dashboard-container h1 {
+    margin-bottom: 30px;
+}
+
+.options button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.options button:hover {
+    background-color: #0056b3;
+}
+
+#appointmentForm {
+    margin-top: 30px;
+}
+
+#appointmentForm label, #appointmentForm input, #appointmentForm textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#appointmentForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#appointmentForm button:hover {
+    background-color: #218838;
+}
+
+/* Dashboard Section */
+.dashboard-section {
+    margin-bottom: 50px; /* Adds space between sections */
+    text-align: center;
+}
+
+.dashboard-section img {
+    margin-bottom: 20px; /* Adds space between the icon and the button */
+}
+
+.dashboard-section .login-button {
+    margin-top: 20px; /* Adds space above the button */
+    padding: 10px 20px; /* Adjust the padding for the button */
+}
+
+/* Dashboard Section Specific Styles */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.dashboard-item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-item i {
+    font-size: 3rem;
+    color: #ff4757;
+}
+
+.dashboard-item h3 {
+    margin-top: 15px;
+    font-size: 1.5rem;
+}
+
+.dashboard-item p {
+    margin-top: 10px;
+}
+
+/* Media Queries for Responsive Dashboard */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Stack items on smaller screens */
+    }
+}

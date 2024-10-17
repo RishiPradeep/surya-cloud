@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHR System - Feature-Rich Healthcare Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="#">
+                    <!-- <img src="/Users/suryaganapathy/Desktop/Cloud Project /logo.png" alt="HealthSync Logo" class="logo"> -->
+                    <h1>HealthSync</h1>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#dashboard" class="dashboard-btn">Dashboard</a></li>
+                    <li><a href="#create" class="login-btn">Create Login</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <h1>Empowering Healthcare with Modern EHR Solutions</h1>
+            <p>Managing patient care, appointments, records, and billing—effortlessly.</p>
+            <a href="#features" class="btn-primary">Explore Features</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>User Authentication</h3>
+                    <p>Secure, role-based access for healthcare providers, patients, and administrators.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-procedures"></i>
+                    <h3>Patient Management</h3>
+                    <p>Manage patient profiles, medical histories, and demographics seamlessly.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Appointment Scheduling</h3>
+                    <p>Book, reschedule, and manage appointments with calendar integration.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-notes-medical"></i>
+                    <h3>Electronic Medical Records</h3>
+                    <p>Store and access clinical notes, diagnostic results, and prescriptions easily.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-comment-dots"></i>
+                    <h3>Secure Messaging</h3>
+                    <p>Communicate safely between healthcare providers and patients.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Billing and Payments</h3>
+                    <p>Streamlined billing system with secure payment gateways and insurance management.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+<section id="dashboard" class="section">
+    <div class="container">
+        <h2>Personalized Dashboards</h2>
+        <p>Role-specific dashboards for healthcare providers, patients, and administrators.</p>
+        <div class="dashboard-grid">
+            <!-- Doctors' Dashboard -->
+            <div class="dashboard-item">
+                <i class="fas fa-user-md"></i>
+                <h3>Doctors' Dashboard</h3>
+                <p>View upcoming appointments, access patient records, and monitor reports.</p>
+                <a href="doclogin.html" class="btn-primary">Doctor Login</a> <!-- Doctor Login Button -->
+            </div>
+            
+            <!-- Patients' Dashboard -->
+            <div class="dashboard-item">
+                <i class="fas fa-user-injured"></i>
+                <h3>Patients' Dashboard</h3>
+                <p>Manage appointments, view medical history, and communicate with your healthcare team.</p>
+                <a href="patlogin.html" class="btn-primary">Patient Login</a> <!-- Patient Login Button -->
+            </div>
+            
+            <!-- Admin Dashboard -->
+            <div class="dashboard-item">
+                <i class="fas fa-user-cog"></i>
+                <h3>Admin Dashboard</h3>
+                <p>Oversee system activities, manage users, and maintain data compliance.</p>
+                <a href="adminlogin.html" class="btn-primary">Admin Login</a> <!-- Admin Login Button -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Our System</h2>
+            <p>We provide secure, reliable, and efficient EHR solutions that streamline healthcare management, improve care quality, and safeguard patient data.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 EHR System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

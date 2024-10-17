@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Record Entry</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .form-container {
+        width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      .btn-primary {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-primary:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Enter Health Record for <span id="patientName"></span></h2>
+      <form id="healthRecordForm">
+        <div class="form-group">
+          <label for="illness">Illness Description</label>
+          <textarea id="illness" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="medication">Prescribed Medication</label>
+          <textarea id="medication" rows="2" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Submit Health Record</button>
+      </form>
+    </div>
+
+    <script>
+      // Get patient name and booking ID from URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const patientName = urlParams.get("patientName");
+      const bookingID = urlParams.get("bookingID");
+
+      // Display the patient's name in the form
+      document.getElementById("patientName").textContent = patientName;
+
+      // Form submission handler
+      document
+        .getElementById("healthRecordForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault(); // Prevent form submission reload
+
+          // Get form values
+          const illness_desc = document.getElementById("illness").value;
+          const presc_medi = document.getElementById("medication").value;
+
+          // Prepare data to send to the backend
+          const requestBody = {
+            illness_desc: illness_desc,
+            presc_medi: presc_medi,
+            bookingid: parseInt(bookingID),
+          };
+
+          try {
+            // Send POST request to /savePrescription
+            const response = await fetch("/savePrescription", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+              alert("Health record saved successfully!");
+              window.location.href = "doctor_dashboard.html"; // Redirect to dashboard or desired page
+            } else {
+              alert("Error saving health record.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while saving the health record.");
+          }
+        });
+    </script>
+  </body>
+</html>

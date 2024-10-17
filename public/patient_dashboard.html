@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .dashboard-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .options {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #appointmentForm {
+        margin-top: 20px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button[type="submit"] {
+        background-color: #28a745;
+      }
+      button[type="submit"]:hover {
+        background-color: #218838;
+      }
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ccc;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+      .details {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <h1>Welcome, Patient</h1>
+      <div class="options">
+        <button onclick="showForm()">Book Appointment</button>
+        <button onclick="viewAppointments()">View Appointments</button>
+      </div>
+
+      <!-- Hidden Appointment Form -->
+      <div id="appointmentForm" style="display: none">
+        <h2>Book Appointment</h2>
+        <form id="appointment-form" onsubmit="submitAppointment(event)">
+          <label for="doctor">Choose Doctor</label>
+          <select id="doctor" required>
+            <option value="">Select a doctor</option>
+            <option value="surya">Surya</option>
+            <option value="rajyasri">Rajyasri</option>
+          </select>
+
+          <label for="date">Choose Date</label>
+          <input type="date" id="date" required />
+
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" required />
+
+          <label for="illness">Illness</label>
+          <textarea id="illness" rows="4" required></textarea>
+
+          <label for="medication">Current Medication</label>
+          <textarea id="medication" rows="2" required></textarea>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+
+      <!-- Hidden Appointments Table -->
+      <div id="appointmentsTable" style="display: none">
+        <h2>Your Appointments</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Doctor</th>
+              <th>Date</th>
+              <th>Illness</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentsBody">
+            <!-- Rows will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      async function viewAppointments() {
+        const username = sessionStorage.getItem("name");
+
+        try {
+          // Fetch bookings from the server
+          const response = await fetch("/getPatientBooking", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+
+            // Clear previous appointments
+            const appointmentsBody =
+              document.getElementById("appointmentsBody");
+            appointmentsBody.innerHTML = "";
+
+            if (data.bookings && data.bookings.length > 0) {
+              // Populate the appointments table with the data received
+              data.bookings.forEach((appointment, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                                <td>${appointment.doctor_name}</td>
+                                <td>${appointment.date_appointment}</td>
+                                <td>${appointment.illness}</td>
+                                <td>${appointment.status}</td>
+                                <td><button onclick="toggleDetails(${index})">View Details</button></td>
+                            `;
+
+                // Create a hidden div for illness and prescription details
+                const detailsDiv = document.createElement("div");
+                detailsDiv.id = `details-${index}`;
+                detailsDiv.classList.add("details");
+                detailsDiv.innerHTML = `
+                                <strong>Illness:</strong> ${
+                                  appointment.illness_desc
+                                }<br/>
+                                <strong>Prescription:</strong> ${
+                                  appointment.presc_medi || "Not provided yet."
+                                }
+                            `;
+                row.appendChild(detailsDiv);
+
+                appointmentsBody.appendChild(row);
+              });
+
+              document.getElementById("appointmentsTable").style.display =
+                "block";
+              document.getElementById("appointmentForm").style.display = "none";
+            } else {
+              alert("No appointments found.");
+            }
+          } else {
+            alert("Failed to load appointments. Please try again later.");
+          }
+        } catch (error) {
+          console.error("Error fetching appointments:", error);
+        }
+      }
+
+      function toggleDetails(index) {
+        const detailsDiv = document.getElementById(`details-${index}`);
+        if (detailsDiv.style.display === "none" || !detailsDiv.style.display) {
+          detailsDiv.style.display = "block";
+        } else {
+          detailsDiv.style.display = "none";
+        }
+      }
+
+      function showForm() {
+        document.getElementById("appointmentForm").style.display = "block";
+        document.getElementById("appointmentsTable").style.display = "none";
+      }
+
+      async function submitAppointment(event) {
+        event.preventDefault();
+        const patient_name_local = sessionStorage.getItem("name");
+
+        const doctor_name = document.getElementById("doctor").value;
+        const date_appointment_old = document.getElementById("date").value;
+        const full_name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const illness = document.getElementById("illness").value;
+        const current_medication = document.getElementById("medication").value;
+        const patient_name = patient_name_local;
+        const status = "Pending";
+        const date_appointment = "2024-10-29T12:00:00Z";
+
+        try {
+          const response = await fetch("/makeBooking", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              doctor_name,
+              patient_name,
+              date_appointment,
+              full_name,
+              email,
+              illness,
+              current_medication,
+              status,
+            }),
+          });
+
+          if (response.ok) {
+            alert("Appointment booked successfully!");
+            document.getElementById("appointment-form").reset();
+            document.getElementById("appointmentForm").style.display = "none";
+          } else {
+            alert("Failed to book appointment. Please try again later.");
+          }
+        } catch (error) {
+          console.error("Error booking appointment:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

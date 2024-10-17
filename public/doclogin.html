@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Login</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .login-container {
+        width: 400px;
+        margin: 100px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .btn-primary {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-primary:hover {
+        background-color: #218838;
+      }
+      .error-message {
+        color: red;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Doctor Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="userId">Username</label>
+          <input type="text" id="userId" name="userId" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit" class="btn-primary">Login</button>
+        <div id="errorMessage" class="error-message"></div>
+      </form>
+    </div>
+
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      const errorMessage = document.getElementById("errorMessage");
+
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const enteredUserId = document.getElementById("userId").value;
+        const enteredPassword = document.getElementById("password").value;
+
+        try {
+          const response = await fetch("/doctorLogin", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: enteredUserId, // Send the User ID as 'username'
+              password: enteredPassword,
+            }),
+          });
+
+          if (response.ok) {
+            sessionStorage.clear();
+            sessionStorage.setItem("docname", enteredUserId);
+            alert("Login successful! Welcome Dr. " + enteredUserId);
+            window.location.href = "doctor_dashboard.html"; // Redirect on success
+          } else {
+            const errorText = await response.text();
+            errorMessage.textContent = errorText; // Display error message
+          }
+        } catch (error) {
+          console.error("Error during login:", error);
+          errorMessage.textContent = "An error occurred. Please try again.";
+        }
+      });
+    </script>
+  </body>
+</html>

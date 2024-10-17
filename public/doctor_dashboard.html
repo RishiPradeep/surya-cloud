@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .dashboard-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+      table th,
+      table td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+      .btn-primary {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px; /* Space between buttons */
+      }
+      .btn-primary:hover {
+        background-color: #218838;
+      }
+      .btn-reject {
+        padding: 10px 20px;
+        background-color: #dc3545; /* Red color for reject */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-reject:hover {
+        background-color: #c82333; /* Darker red for hover */
+      }
+      .rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <h1>Doctor Dashboard</h1>
+      <h2>Upcoming Appointments</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Illness</th>
+            <th>Patient Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="appointment-list">
+          <!-- Dynamic data will be injected here -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      // Fetch bookings data dynamically
+      async function getDoctorBookings(username) {
+        try {
+          const response = await fetch("/getDoctorBooking", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username }), // Use the username from sessionStorage
+          });
+
+          if (response.ok) {
+            const doctorData = await response.json();
+            renderAppointments(doctorData.bookings); // Assuming doctorData contains the bookings array
+          } else {
+            console.error("Failed to fetch doctor data");
+          }
+        } catch (error) {
+          console.error("Error fetching doctor bookings:", error);
+        }
+      }
+
+      // Function to render the appointments in the table
+      function renderAppointments(bookings) {
+        const appointmentList = document.getElementById("appointment-list");
+        appointmentList.innerHTML = ""; // Clear existing rows
+
+        bookings.forEach((booking) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${booking.illness}</td>
+                <td>${booking.patient_name}</td>
+                <td>
+                    <button class="btn-primary" onclick="enterHealthRecord('${booking.id}', '${booking.patient_name}')">Enter Health Record</button>
+                    <button class="btn-reject" onclick="rejectAppointment('${booking.patientId}', this)">Reject</button>
+                </td>
+            `;
+          appointmentList.appendChild(row);
+        });
+      }
+
+      // Redirect to health record page
+      function enterHealthRecord(patientId, patientName) {
+        window.location.href = `health_record_form.html?bookingID=${patientId}&patientName=${patientName}`;
+      }
+
+      // Reject appointment logic
+      function rejectAppointment(patientId, button) {
+        const row = button.closest("tr");
+        row.classList.add("rejected"); // Add a class for rejected appointments
+        button.disabled = true; // Disable the reject button
+        button.textContent = "Rejected"; // Change button text
+        alert(`Appointment for Patient ID: ${patientId} has been rejected.`);
+        // Optionally send request to update the status in the backend
+      }
+
+      // Get the doctor's username from sessionStorage
+      const doctorUsername = sessionStorage.getItem("docname");
+
+      if (doctorUsername) {
+        // Fetch and display doctor bookings
+        getDoctorBookings(doctorUsername);
+      } else {
+        console.error("No doctor username found in sessionStorage");
+      }
+    </script>
+  </body>
+</html>
